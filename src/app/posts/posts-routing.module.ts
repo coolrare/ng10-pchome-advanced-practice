@@ -1,3 +1,4 @@
+import { AuthGuard } from './../auth.guard';
 import { CreateComponent } from './create/create.component';
 import { PostComponent } from './post/post.component';
 import { NgModule } from '@angular/core';
@@ -9,20 +10,21 @@ const routes: Routes = [
   {
     path: '',
     redirectTo: 'posts',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'posts',
-    component: PostsComponent
+    component: PostsComponent,
   },
   {
     path: 'post/:id',
-    component: PostComponent
+    component: PostComponent,
   },
-   {
-     path: 'create',
-     component: CreateComponent
-   }
+  {
+    path: 'create',
+    component: CreateComponent,
+    canActivate: [AuthGuard],
+  },
 ];
 
 @NgModule({
