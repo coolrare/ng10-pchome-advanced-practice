@@ -5,7 +5,7 @@
         <!-- {{ post.value | json }} -->
         {{ post.get('title').errors | json }}
         {{ post.get('body').errors | json }}
-        <form [formGroup]="post">
+        <form [formGroup]="post" (ngSubmit)="createPost()">
           <fieldset class="form-group">
             <input
               class="form-control form-control-lg"
