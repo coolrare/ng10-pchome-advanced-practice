@@ -2,7 +2,9 @@
   <div class="container page">
     <div class="row">
       <div class="col-md-10 col-md-offset-1 col-xs-12">
-        {{ post.value | json }}
+        <!-- {{ post.value | json }} -->
+        {{ post.get('title').errors | json }}
+        {{ post.get('body').errors | json }}
         <form [formGroup]="post">
           <fieldset class="form-group">
             <input
@@ -12,6 +14,9 @@
               formControlName="title"
             />
           </fieldset>
+          <ul *ngIf="title.dirty && title.invalid">
+            <li *ngIf="title.errors.required">標題必填</li>
+          </ul>
           <fieldset class="form-group">
             <textarea
               class="form-control"
@@ -28,6 +33,12 @@
               formControlName="body"
             ></textarea>
           </fieldset>
+          <ul *ngIf="body.dirty && body.invalid">
+            <li *ngIf="body.errors.required">Body 為必填</li>
+            <li *ngIf="body.errors.minlength">
+              長度不正確 ({{ body.errors.minlength.actualLength }}/{{ body.errors.minlength.requiredLength }})
+            </li>
+          </ul>
           <fieldset class="form-group">
             <input class="form-control" type="text" placeholder="Enter tags" #tag (keyup.enter)="addTag(tag.value); tag.value = ''" />
             <div class="tag-list">
@@ -37,7 +48,9 @@
 
             </div>
           </fieldset>
-          <button type="submit" class="btn btn-lg btn-primary pull-xs-right">
+          <button type="submit" class="btn btn-lg btn-primary pull-xs-right"
+            [disabled]="post.invalid"
+          >
             Create Post
           </button>
         </form>
